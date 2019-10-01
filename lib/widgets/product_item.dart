@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../screens/products_detail_screen.dart';
 import '../model/product.dart';
+
 class ProductItem extends StatelessWidget {
   // final String id;
   // final String title;
@@ -9,38 +10,43 @@ class ProductItem extends StatelessWidget {
   // ProductItem(this.id, this.title, this.imageUrl);
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
-      child: GridTile(
-        child: GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed(ProdcutsDetailScreen.routeName,arguments: product.id);
-            },
-            child: Image.network(
-              product.imageUrl,
-              fit: BoxFit.cover,
-            )),
-        footer: GridTileBar(
-          backgroundColor: Colors.black87,
-          leading: IconButton(
-            icon: Icon(product.isFavorite ?  Icons.favorite : Icons.favorite_border),
-            onPressed: () {
-              product.toggleFavoriteStatus();
-            },
-            color: Theme.of(context).accentColor,
-          ),
-          title: Text(
-            product.title,
-            textAlign: TextAlign.center,
-          ),
-          trailing: IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {},
-            color: Theme.of(context).accentColor,
+    final product = Provider.of<Product>(context,listen: false);
+    return  ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: GridTile(
+          child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(ProdcutsDetailScreen.routeName,
+                    arguments: product.id);
+              },
+              child: Image.network(
+                product.imageUrl,
+                fit: BoxFit.cover,
+              )),
+          footer: GridTileBar(
+            backgroundColor: Colors.black87,
+            leading:Consumer<Product>(
+      builder: (ctx, product, child) => IconButton(
+              icon: Icon(
+                  product.isFavorite ? Icons.favorite : Icons.favorite_border),
+              onPressed: () {
+                product.toggleFavoriteStatus();
+              },
+              color: Theme.of(context).accentColor,
+            ),
+            ),
+            title: Text(
+              product.title,
+              textAlign: TextAlign.center,
+            ),
+            trailing: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {},
+              color: Theme.of(context).accentColor,
+            ),
           ),
         ),
-      ),
+     
     );
   }
 }
