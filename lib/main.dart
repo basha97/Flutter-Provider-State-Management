@@ -12,6 +12,8 @@ import './providers/products.dart';
 
 import './providers/cart.dart';
 
+import './providers/orders.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -20,7 +22,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
         ChangeNotifierProvider.value(value: Products()),
-        ChangeNotifierProvider.value(value: Cart())
+        ChangeNotifierProvider.value(value: Cart()),
+        ChangeNotifierProvider.value(value: Orders())
     ],
 		  child: MaterialApp(
         title: 'Flutter Demo',
